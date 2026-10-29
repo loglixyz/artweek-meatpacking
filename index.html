@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--
+  ================================================================
+  CONFIG — the one place to edit.
+  Every date-, venue-, partner- and contact-related string lives here.
+  script.js renders these values into the page.
+  Phase 2: update this block (dates, venue wording, partners, contact)
+  and the page follows. Keep it inline: no fetch(), so file:// works.
+  ================================================================
+-->
+<script>
+window.CONFIG = {
+  site: {
+    shortName: "Art & Coffee, Meatpacking",
+    status: "Concept preview",
+    title: "A Week of Art and Coffee in Meatpacking",
+    titleNote: "Working title. Final event name to be decided.",
+    tagline: "An art space with a coffee bar inside a large, empty commercial building in the Meatpacking District, open for about a week. Co-hosted and design-led.",
+    dates: "November 2026 · exact dates to be confirmed"
+  },
+
+  festival: {
+    name: "Art Week NYC",
+    dates: "November 11–14, 2026"
+  },
+
+  hero: {
+    src: "assets/site-hero.png",
+    alt: "Illustration of a sunlit, high-ceilinged gallery with large abstract paintings in teal, ochre and black, a stone sculpture on a plinth, a wooden bench, visitors holding coffee cups, and a teal coffee bar with stools in the foreground.",
+    caption: "Concept illustration of the gallery and coffee bar. It does not show the actual space."
+  },
+
+  week: {
+    heading: "The week",
+    intro: "About a week, timed around Art Week NYC ({festivalDates}). Exact activation dates are still being agreed. The model is co-hosted and design-led. The aim is to bring visibility to the space and to the cultural organizations involved.",
+    items: [
+      { title: "Opening dinner", text: "One long table to open the week. A seated dinner for the people who shape what follows.", motif: "table" },
+      { title: "Collaborative coworking", text: "During the festival days the space works as a shared studio, with open tables for working and meeting alongside the art.", motif: "grid" },
+      { title: "Coffee bar", text: "A coffee bar runs throughout the week. Some suppliers are already in place.", motif: "cup" },
+      { title: "Co-hosted events", text: "More events, shaped together with co-hosts from a fellowship of NYC founders and builders.", motif: "forms" }
+    ]
+  },
+
+  scenes: [
+    {
+      src: "assets/site-dinner.png",
+      alt: "Illustration of an evening dinner at one long wooden table lit by candles and copper pendant lamps. Six guests talk over wine, with abstract paintings and small sculptures in the gallery behind them.",
+      caption: "Concept illustration: the opening dinner."
+    },
+    {
+      src: "assets/site-cowork.png",
+      alt: "Illustration of a bright gallery used as a shared workspace. People work on laptops at long wooden tables and in teal armchairs, under abstract paintings, with a barista at a wooden coffee counter on the right.",
+      caption: "Concept illustration: coworking during the festival days."
+    }
+  ],
+
+  space: {
+    heading: "The space",
+    location: "Meatpacking District, near the Whitney Museum",
+    area: "About 11,500 sq ft",
+    areaNote: "plus a basement",
+    text: "A large commercial property, currently empty, opened up for one week as a place to look, work, eat and talk.",
+    diagramCaption: "Abstract diagram, not a floor plan."
+  },
+
+  program: {
+    heading: "Program",
+    text: "Program announced soon."
+  },
+
+  partners: {
+    show: true,
+    heading: "Partners",
+    text: "Partnerships being explored; none confirmed."
+  },
+
+  contact: {
+    heading: "Contact",
+    text: "Contact details coming soon."
+  },
+
+  footer: "Concept in development. Dates, program and partners to be confirmed."
+};
+</script>
+
+<title>Concept preview</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="styles.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="wrap masthead__inner">
+    <a class="wordmark" href="#top" data-config="site.shortName"></a>
+    <nav aria-label="Sections">
+      <ul class="nav">
+        <li><a href="#week" data-config="week.heading"></a></li>
+        <li><a href="#space" data-config="space.heading"></a></li>
+        <li><a href="#program" data-config="program.heading"></a></li>
+        <li><a href="#contact" data-config="contact.heading"></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="wrap hero__grid">
+      <div class="hero__text">
+        <p class="eyebrow"><span data-config="site.status"></span> · <span data-config="festival.name"></span></p>
+        <h1 id="hero-title" data-config="site.title"></h1>
+        <p class="hero__note" data-config="site.titleNote"></p>
+        <p class="hero__tagline" data-config="site.tagline"></p>
+        <p class="hero__dates" data-config="site.dates"></p>
+      </div>
+      <figure class="hero__figure" data-image="hero"></figure>
+    </div>
+  </section>
+
+  <section class="section" id="week" aria-labelledby="week-title">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="section__index" aria-hidden="true">I</p>
+        <h2 id="week-title" data-config="week.heading"></h2>
+        <p class="lede" data-config="week.intro"></p>
+      </div>
+      <ol class="cards" data-list="week.items"></ol>
+    </div>
+    <div class="wrap scenes" data-list="scenes"></div>
+  </section>
+
+  <section class="section section--sand" id="space" aria-labelledby="space-title">
+    <div class="wrap space">
+      <div class="section__head">
+        <p class="section__index" aria-hidden="true">II</p>
+        <h2 id="space-title" data-config="space.heading"></h2>
+        <p class="lede" data-config="space.text"></p>
+        <dl class="facts">
+          <div><dt>Where</dt><dd data-config="space.location"></dd></div>
+          <div><dt>Size</dt><dd><span data-config="space.area"></span>, <span data-config="space.areaNote"></span></dd></div>
+        </dl>
+      </div>
+      <figure class="diagram">
+        <svg viewBox="0 0 480 360" role="img" aria-labelledby="diagram-title">
+          <title id="diagram-title">Abstract diagram: a large open level above a smaller basement level.</title>
+          <!-- main level: a tilted plane -->
+          <polygon class="d-plane" points="60,120 300,60 440,130 200,190"/>
+          <polygon class="d-edge" points="60,120 200,190 200,206 60,136"/>
+          <polygon class="d-edge d-edge--dark" points="200,190 440,130 440,146 200,206"/>
+          <!-- forms on the main level -->
+          <rect class="d-teal" x="232" y="108" width="70" height="10" rx="5" transform="rotate(-14 232 108)"/>
+          <circle class="d-ink" cx="160" cy="132" r="9"/>
+          <circle class="d-teal-soft" cx="330" cy="128" r="14"/>
+          <!-- basement level -->
+          <polygon class="d-basement" points="110,250 290,205 395,258 215,303"/>
+          <line class="d-guide" x1="60" y1="136" x2="110" y2="250"/>
+          <line class="d-guide" x1="440" y1="146" x2="395" y2="258"/>
+          <!-- labels -->
+          <text class="d-label" x="300" y="40" text-anchor="middle" data-config="space.area"></text>
+          <text class="d-label d-label--muted" x="300" y="330" text-anchor="middle" data-config="space.areaNote"></text>
+        </svg>
+        <figcaption data-config="space.diagramCaption"></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section status" aria-label="Program, partners and contact">
+    <div class="wrap">
+      <p class="section__index" aria-hidden="true">III</p>
+      <div class="status__row" id="program">
+        <h2 data-config="program.heading"></h2>
+        <p data-config="program.text"></p>
+      </div>
+      <div class="status__row" id="partners" data-show="partners.show">
+        <h2 data-config="partners.heading"></h2>
+        <p data-config="partners.text"></p>
+      </div>
+      <div class="status__row" id="contact">
+        <h2 data-config="contact.heading"></h2>
+        <p data-config="contact.text"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p data-config="footer"></p>
+  </div>
+</footer>
+
+<noscript><p class="wrap">This preview needs JavaScript turned on to show its content.</p></noscript>
+</body>
+</html>
