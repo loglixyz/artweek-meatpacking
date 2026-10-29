@@ -69,7 +69,12 @@ Once the venue and exact dates are confirmed:
 | Vercel | static | Similar to Netlify. Preview protection depends on plan. |
 | Small Python host (Render, Fly.io, Railway, PythonAnywhere) | `app.py` | Needed only if the site gets server-side features such as RSVP. |
 
-No remote, push or hosting account has been set up. That decision is yours to make later.
+### Current hosting
+
+- Code: private GitHub repo `loglixyz/artweek-meatpacking`.
+- Site: Netlify, deployed from `main`. Settings are in `netlify.toml` (no build command, publish the repo root).
+- The site is **public to anyone with the link** and shared internally only. The `noindex` meta tag and `X-Robots-Tag` header ask search engines to skip it, but they are not access control.
+- To go fully public in phase 2, remove both the `noindex` meta tag and the `X-Robots-Tag` line in `netlify.toml`, then attach the domain in Netlify under Domain management.
 
 ## Pre-publish checklist
 

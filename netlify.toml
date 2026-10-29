@@ -1,0 +1,14 @@
+# Netlify: plain static site, no build step. Publishes the repo root.
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Shared internally for now: ask search engines not to index it.
+    # This is not access control; anyone with the link can open the page.
+    X-Robots-Tag = "noindex, nofollow"
+    Referrer-Policy = "no-referrer"
+    X-Content-Type-Options = "nosniff"
+    # Same-origin files only. 'unsafe-inline' is for the inline CONFIG script.
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
