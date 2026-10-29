@@ -72,9 +72,10 @@ Once the venue and exact dates are confirmed:
 ### Current hosting
 
 - Code: private GitHub repo `loglixyz/artweek-meatpacking`.
-- Site: Netlify, deployed from `main`. Settings are in `netlify.toml` (no build command, publish the repo root).
-- The site is **public to anyone with the link** and shared internally only. The `noindex` meta tag and `X-Robots-Tag` header ask search engines to skip it, but they are not access control.
-- To go fully public in phase 2, remove both the `noindex` meta tag and the `X-Robots-Tag` line in `netlify.toml`, then attach the domain in Netlify under Domain management.
+- Site: GitHub Pages, deployed from `main`, repo root (Settings → Pages → Deploy from a branch). Address: https://loglixyz.github.io/artweek-meatpacking/
+- `.nojekyll` tells Pages to serve the files as they are, with no Jekyll processing.
+- The site is **public to anyone with the link** and shared internally only. The `noindex` meta tag asks search engines to skip it, but it is not access control.
+- To go fully public in phase 2, remove the `noindex` meta tag, then add the domain under Settings → Pages → Custom domain and point its DNS at GitHub.
 
 ## Pre-publish checklist
 
