@@ -8,7 +8,9 @@ It is a plain static site with no build step, no framework, no analytics and no 
 index.html   page markup + the inline CONFIG block (all editable content)
 styles.css   layout and type
 script.js    renders CONFIG into the page
-assets/      concept illustrations (site-hero.png, site-dinner.png, site-cowork.png)
+assets/      concept illustrations: site-hero, site-dinner, site-cowork
+             (.webp served first, .png fallback) and site-coffee.jpg,
+             a detail cropped from the hero illustration
 app.py       optional Flask server, not required
 ```
 

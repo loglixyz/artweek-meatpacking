@@ -29,40 +29,60 @@ window.CONFIG = {
     dates: "November 11–14, 2026"
   },
 
+  // Shown on every illustration so no one mistakes it for the real space.
+  imageNote: "Concept illustration",
+
   hero: {
     src: "assets/site-hero.png",
+    webp: "assets/site-hero.webp",
     alt: "Illustration of a sunlit, high-ceilinged gallery with large abstract paintings in teal, ochre and black, a stone sculpture on a plinth, a wooden bench, visitors holding coffee cups, and a teal coffee bar with stools in the foreground.",
     caption: "Concept illustration of the gallery and coffee bar. It does not show the actual space."
   },
 
   week: {
     heading: "The week",
-    intro: "About a week, timed around Art Week NYC ({festivalDates}). Exact activation dates are still being agreed. The model is co-hosted and design-led. The aim is to bring visibility to the space and to the cultural organizations involved.",
+    intro: "About a week, timed around {festivalName} ({festivalDates}). Exact activation dates are still being agreed. The model is co-hosted and design-led. The aim is to bring visibility to the space and to the cultural organizations involved.",
     items: [
-      { title: "Opening dinner", text: "One long table to open the week. A seated dinner for the people who shape what follows.", motif: "table" },
-      { title: "Collaborative coworking", text: "During the festival days the space works as a shared studio, with open tables for working and meeting alongside the art.", motif: "grid" },
-      { title: "Coffee bar", text: "A coffee bar runs throughout the week. Some suppliers are already in place.", motif: "cup" },
-      { title: "Co-hosted events", text: "More events, shaped together with co-hosts from a fellowship of NYC founders and builders.", motif: "forms" }
+      {
+        title: "Opening dinner",
+        text: "One long table to open the week. A seated dinner for the people who shape what follows.",
+        image: {
+          src: "assets/site-dinner.png",
+          webp: "assets/site-dinner.webp",
+          alt: "Illustration of an evening dinner at one long wooden table lit by candles and copper pendant lamps. Six guests talk over wine, with abstract paintings and small sculptures behind them."
+        }
+      },
+      {
+        title: "Collaborative coworking",
+        text: "During the festival days the space works as a shared studio, with open tables for working and meeting alongside the art.",
+        image: {
+          src: "assets/site-cowork.png",
+          webp: "assets/site-cowork.webp",
+          alt: "Illustration of a bright gallery used as a shared workspace. People work on laptops at long wooden tables and in teal armchairs, under abstract paintings."
+        }
+      },
+      {
+        title: "Coffee bar",
+        text: "A coffee bar runs throughout the week. Some suppliers are already in place.",
+        image: {
+          src: "assets/site-coffee.jpg",
+          alt: "Detail of a concept illustration: a teal fluted coffee bar with a pale stone counter, espresso machine, pour-over kettles, pastries under a glass dome and wooden stools."
+        }
+      },
+      {
+        title: "Co-hosted events",
+        text: "More events, shaped together with co-hosts from a fellowship of NYC founders and builders.",
+        motif: "forms"
+      }
     ]
   },
 
-  scenes: [
-    {
-      src: "assets/site-dinner.png",
-      alt: "Illustration of an evening dinner at one long wooden table lit by candles and copper pendant lamps. Six guests talk over wine, with abstract paintings and small sculptures in the gallery behind them.",
-      caption: "Concept illustration: the opening dinner."
-    },
-    {
-      src: "assets/site-cowork.png",
-      alt: "Illustration of a bright gallery used as a shared workspace. People work on laptops at long wooden tables and in teal armchairs, under abstract paintings, with a barista at a wooden coffee counter on the right.",
-      caption: "Concept illustration: coworking during the festival days."
-    }
-  ],
-
   space: {
     heading: "The space",
+    district: "Meatpacking District",
     location: "Meatpacking District, near the Whitney Museum",
-    area: "About 11,500 sq ft",
+    areaFigure: "11,500",
+    areaUnit: "sq ft, approx.",
     areaNote: "plus a basement",
     text: "A large commercial property, currently empty, opened up for one week as a place to look, work, eat and talk.",
     diagramCaption: "Abstract diagram, not a floor plan."
@@ -90,6 +110,7 @@ window.CONFIG = {
 
 <title>Concept preview</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F4EFEC'/%3E%3Cpath d='M6 26V14a8 8 0 0 1 16 0v12z' fill='%2373A89A'/%3E%3Ccircle cx='23' cy='11' r='5' fill='%23251F21'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 <script src="script.js" defer></script>
 </head>
@@ -114,7 +135,7 @@ window.CONFIG = {
   <section class="hero" id="top" aria-labelledby="hero-title">
     <div class="wrap hero__grid">
       <div class="hero__text">
-        <p class="eyebrow"><span data-config="site.status"></span> · <span data-config="festival.name"></span></p>
+        <p class="eyebrow"><span class="pill" data-config="site.status"></span></p>
         <h1 id="hero-title" data-config="site.title"></h1>
         <p class="hero__note" data-config="site.titleNote"></p>
         <p class="hero__tagline" data-config="site.tagline"></p>
@@ -124,30 +145,42 @@ window.CONFIG = {
     </div>
   </section>
 
+  <div class="band">
+    <p class="wrap band__inner">
+      <span data-config="festival.name"></span>
+      <span class="band__dot" aria-hidden="true"></span>
+      <span data-config="festival.dates"></span>
+      <span class="band__dot" aria-hidden="true"></span>
+      <span data-config="space.district"></span>
+    </p>
+  </div>
+
   <section class="section" id="week" aria-labelledby="week-title">
     <div class="wrap">
-      <div class="section__head">
+      <div class="section__head reveal">
         <p class="section__index" aria-hidden="true">I</p>
         <h2 id="week-title" data-config="week.heading"></h2>
         <p class="lede" data-config="week.intro"></p>
       </div>
       <ol class="cards" data-list="week.items"></ol>
     </div>
-    <div class="wrap scenes" data-list="scenes"></div>
   </section>
 
   <section class="section section--sand" id="space" aria-labelledby="space-title">
     <div class="wrap space">
-      <div class="section__head">
+      <div class="section__head reveal">
         <p class="section__index" aria-hidden="true">II</p>
         <h2 id="space-title" data-config="space.heading"></h2>
+        <p class="stat">
+          <span class="stat__figure" data-config="space.areaFigure"></span>
+          <span class="stat__unit"><span data-config="space.areaUnit"></span><br><span data-config="space.areaNote"></span></span>
+        </p>
         <p class="lede" data-config="space.text"></p>
         <dl class="facts">
           <div><dt>Where</dt><dd data-config="space.location"></dd></div>
-          <div><dt>Size</dt><dd><span data-config="space.area"></span>, <span data-config="space.areaNote"></span></dd></div>
         </dl>
       </div>
-      <figure class="diagram">
+      <figure class="diagram reveal">
         <svg viewBox="0 0 480 360" role="img" aria-labelledby="diagram-title">
           <title id="diagram-title">Abstract diagram: a large open level above a smaller basement level.</title>
           <!-- main level: a tilted plane -->
@@ -163,7 +196,6 @@ window.CONFIG = {
           <line class="d-guide" x1="60" y1="136" x2="110" y2="250"/>
           <line class="d-guide" x1="440" y1="146" x2="395" y2="258"/>
           <!-- labels -->
-          <text class="d-label" x="300" y="40" text-anchor="middle" data-config="space.area"></text>
           <text class="d-label d-label--muted" x="300" y="330" text-anchor="middle" data-config="space.areaNote"></text>
         </svg>
         <figcaption data-config="space.diagramCaption"></figcaption>
@@ -174,15 +206,15 @@ window.CONFIG = {
   <section class="section status" aria-label="Program, partners and contact">
     <div class="wrap">
       <p class="section__index" aria-hidden="true">III</p>
-      <div class="status__row" id="program">
+      <div class="status__row reveal" id="program">
         <h2 data-config="program.heading"></h2>
         <p data-config="program.text"></p>
       </div>
-      <div class="status__row" id="partners" data-show="partners.show">
+      <div class="status__row reveal" id="partners" data-show="partners.show">
         <h2 data-config="partners.heading"></h2>
         <p data-config="partners.text"></p>
       </div>
-      <div class="status__row" id="contact">
+      <div class="status__row reveal" id="contact">
         <h2 data-config="contact.heading"></h2>
         <p data-config="contact.text"></p>
       </div>
@@ -191,7 +223,8 @@ window.CONFIG = {
 </main>
 
 <footer class="footer">
-  <div class="wrap">
+  <div class="wrap footer__inner">
+    <p class="footer__title" data-config="site.title"></p>
     <p data-config="footer"></p>
   </div>
 </footer>

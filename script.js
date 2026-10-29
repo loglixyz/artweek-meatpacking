@@ -13,7 +13,7 @@
     }, config);
   }
 
-  // Replace {placeholders} in strings with values from config.festival / config.site.
+  // Replace {placeholders} in strings with values from config.festival.
   function fill(text) {
     var tokens = {
       festivalName: config.festival.name,
@@ -31,52 +31,48 @@
     return node;
   }
 
-  function figure(image) {
-    var fig = el("figure", "scene");
+  // <picture> with an optional WebP source and the PNG/JPEG as fallback.
+  function picture(image, eager) {
+    var pic = el("picture");
+    if (image.webp) {
+      var source = el("source");
+      source.type = "image/webp";
+      source.srcset = image.webp;
+      pic.appendChild(source);
+    }
     var img = el("img");
     img.src = image.src;
     img.alt = image.alt;
-    img.loading = "lazy";
+    img.loading = eager ? "eager" : "lazy";
     img.decoding = "async";
-    fig.appendChild(img);
-    fig.appendChild(el("figcaption", null, image.caption));
-    return fig;
+    pic.appendChild(img);
+    return pic;
   }
 
-  // Small abstract SVG compositions for the week cards. Decorative only.
+  // Image frame with the "Concept illustration" tag in the corner.
+  function frame(image, className, eager) {
+    var wrap = el("div", className);
+    wrap.appendChild(picture(image, eager));
+    if (config.imageNote) wrap.appendChild(el("span", "tag", config.imageNote));
+    return wrap;
+  }
+
+  // Abstract SVG compositions for cards without an illustration. Decorative only.
   var NS = "http://www.w3.org/2000/svg";
   var motifs = {
-    table: [
-      ["rect", { x: 14, y: 52, width: 132, height: 16, rx: 8, "class": "m-ink" }],
-      ["circle", { cx: 34, cy: 36, r: 9, "class": "m-teal" }],
-      ["circle", { cx: 64, cy: 36, r: 9, "class": "m-teal" }],
-      ["circle", { cx: 94, cy: 36, r: 9, "class": "m-teal" }],
-      ["circle", { cx: 124, cy: 36, r: 9, "class": "m-teal" }],
-      ["circle", { cx: 50, cy: 86, r: 9, "class": "m-sand" }],
-      ["circle", { cx: 80, cy: 86, r: 9, "class": "m-sand" }],
-      ["circle", { cx: 110, cy: 86, r: 9, "class": "m-sand" }]
-    ],
-    grid: [
-      ["rect", { x: 22, y: 18, width: 50, height: 34, rx: 4, "class": "m-teal" }],
-      ["rect", { x: 86, y: 18, width: 50, height: 34, rx: 4, "class": "m-sand" }],
-      ["rect", { x: 22, y: 64, width: 50, height: 34, rx: 4, "class": "m-sand" }],
-      ["rect", { x: 86, y: 64, width: 50, height: 34, rx: 4, "class": "m-ink" }]
-    ],
-    cup: [
-      ["path", { d: "M44 34 h64 v26 a32 32 0 0 1 -64 0 z", "class": "m-teal" }],
-      ["path", { d: "M108 44 a12 12 0 0 1 0 24", "class": "m-stroke" }],
-      ["rect", { x: 32, y: 96, width: 88, height: 8, rx: 4, "class": "m-ink" }]
-    ],
     forms: [
-      ["path", { d: "M18 100 V52 a30 30 0 0 1 60 0 V100 z", "class": "m-teal" }],
-      ["circle", { cx: 104, cy: 46, r: 26, "class": "m-sand" }],
-      ["path", { d: "M84 100 a28 28 0 0 1 56 0 z", "class": "m-ink" }]
+      ["rect", { x: 0, y: 0, width: 160, height: 120, "class": "m-sand" }],
+      ["path", { d: "M22 120 V62 a30 30 0 0 1 60 0 V120 z", "class": "m-teal" }],
+      ["circle", { cx: 110, cy: 46, r: 24, "class": "m-sand-deep" }],
+      ["path", { d: "M88 120 a28 28 0 0 1 56 0 z", "class": "m-ink" }],
+      ["circle", { cx: 52, cy: 30, r: 6, "class": "m-ink" }]
     ]
   };
 
   function motif(name) {
     var svg = document.createElementNS(NS, "svg");
-    svg.setAttribute("viewBox", "0 0 160 116");
+    svg.setAttribute("viewBox", "0 0 160 120");
+    svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
     svg.setAttribute("aria-hidden", "true");
     svg.setAttribute("focusable", "false");
     (motifs[name] || []).forEach(function (part) {
@@ -92,18 +88,21 @@
   var renderers = {
     "week.items": function (items) {
       return items.map(function (item, i) {
-        var li = el("li", "card");
-        var art = el("div", "card__art");
-        art.appendChild(motif(item.motif));
-        li.appendChild(art);
-        li.appendChild(el("p", "card__num", String(i + 1).padStart(2, "0")));
-        li.appendChild(el("h3", "card__title", item.title));
-        li.appendChild(el("p", "card__text", item.text));
+        var li = el("li", "card reveal");
+        if (item.image) {
+          li.appendChild(frame(item.image, "card__art"));
+        } else {
+          var art = el("div", "card__art card__art--motif");
+          art.appendChild(motif(item.motif));
+          li.appendChild(art);
+        }
+        var body = el("div", "card__body");
+        body.appendChild(el("p", "card__num", String(i + 1).padStart(2, "0")));
+        body.appendChild(el("h3", "card__title", item.title));
+        body.appendChild(el("p", "card__text", item.text));
+        li.appendChild(body);
         return li;
       });
-    },
-    scenes: function (images) {
-      return images.map(figure);
     }
   };
 
@@ -124,10 +123,7 @@
   document.querySelectorAll("[data-image]").forEach(function (node) {
     var image = get(node.getAttribute("data-image"));
     if (!image) return;
-    var fresh = figure(image);
-    fresh.className = node.className;
-    fresh.querySelector("img").loading = "eager";
-    node.replaceWith(fresh);
+    node.replaceChildren(frame(image, "hero__frame", true), el("figcaption", null, image.caption));
   });
 
   // Optional sections.
@@ -136,4 +132,22 @@
   });
 
   document.title = config.site.title + " — " + config.site.status;
+
+  // Fade sections in as they scroll into view. Skipped when the viewer
+  // prefers reduced motion or the browser lacks IntersectionObserver.
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduce && "IntersectionObserver" in window) {
+    document.documentElement.classList.add("js-reveal");
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    document.querySelectorAll(".reveal").forEach(function (node) {
+      observer.observe(node);
+    });
+  }
 })();
