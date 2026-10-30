@@ -64,7 +64,7 @@ These stay empty in phase 1. While empty, their lines and sections are removed f
 
 - Local only. Show it from your own machine.
 - No domain, no hosting account, no analytics, no trackers, no forms, no data collection.
-- Fonts are system fonts (Georgia, then the system sans), so the page makes no requests to Google Fonts or any other third party.
+- Fonts: Fraunces (serif) and Caveat (pencil notes) load from Google Fonts. That is the page's only third-party request, and Google can see visitors' IP addresses. Offline or over `file://`, the page falls back to Georgia and the system sans.
 - The `noindex` meta tag is **not** privacy. If a hosted preview is ever needed, it must sit behind real access control (password protection). A public URL is public, even if the repository is private.
 - The illustrations are concept art. They do not show the actual building.
 

@@ -109,7 +109,7 @@ window.CONFIG = {
         motif: "sketch"
       },
       {
-        title: "Events with co-hosts",
+        title: "Events with co‑hosts",
         text: "More events, shaped together with co-hosts from a fellowship of NYC founders and builders.",
         motif: "forms"
       }
@@ -157,6 +157,11 @@ window.CONFIG = {
 <title>Concept preview</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F4EFEC'/%3E%3Cpath d='M6 26V14a8 8 0 0 1 16 0v12z' fill='%2373A89A'/%3E%3Ccircle cx='23' cy='11' r='5' fill='%23251F21'/%3E%3C/svg%3E">
+<!-- Fraunces (display and text serif) and Caveat (pencil annotations).
+     Offline or over file://, the page falls back to Georgia. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&display=swap">
 <link rel="stylesheet" href="styles.css">
 <script src="script.js" defer></script>
 </head>
@@ -257,7 +262,8 @@ window.CONFIG = {
             <line class="d-guide" x1="440" y1="146" x2="395" y2="258"/>
           </g>
           <circle class="d-dot" cx="160" cy="132" r="5"/>
-          <text class="d-label" x="300" y="334" text-anchor="middle" data-config="space.areaNote"></text>
+          <path class="d-arrow pencil" d="M326 322 C 318 306, 300 296, 276 290 M276 290 l8 -5 M276 290 l7 6"/>
+          <text class="d-label" x="336" y="342" text-anchor="middle" data-config="space.areaNote"></text>
         </svg>
         <figcaption data-config="space.diagramCaption"></figcaption>
       </figure>
