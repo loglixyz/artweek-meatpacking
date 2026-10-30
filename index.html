@@ -153,9 +153,10 @@ window.CONFIG = {
     steps: [
       { label: "Before", title: "Install", text: "The coffee bar and suppliers go in first, then the exhibition." },
       { label: "The eve", title: "Opening dinner", text: "One long table on the eve of the public days. Format and guests set with the co-hosts." },
-      { label: "During Art Week NYC", title: "Open days", text: "Exhibition, coworking and coffee, open to the public." },
+      { label: "During Art Week NYC (festival dates: November 11–14)", title: "Open days", text: "Exhibition, coworking and coffee, open to the public." },
       { label: "After", title: "Close", text: "The hang comes down and the space is handed back." }
-    ]
+    ],
+    note: "Activation dates to be confirmed."
   },
 
   model: {
@@ -190,7 +191,9 @@ window.CONFIG = {
 
   program: {
     heading: "Program",
-    text: ""
+    text: "An illustrative day: coffee opens in the morning and the coworking tables fill. The exhibition runs at full flow through midday, with open sketch hours. The afternoon could hold a short talk or walkthrough with a co-host. An evening could bring a co-hosted event. Illustrative only. The final program is to be agreed with the co-hosts.",
+    // Required because the day above describes visitor participation.
+    note: "{participationNote}"
   },
 
   // Hidden while nothing is confirmed. Set show: true to bring the row back.
@@ -200,17 +203,29 @@ window.CONFIG = {
     text: "Partnerships being explored; none confirmed."
   },
 
+  // Real address only, e.g. "Interested in taking part, co-hosting or showing
+  // work? Get in touch: name@example.com." Empty: row and nav link hidden.
   contact: {
     heading: "Contact",
     text: ""
   },
 
-  footer: "A co-hosted week of art and coffee in the Meatpacking District."
+  footer: "A co-hosted week of art and coffee in the Meatpacking District.",
+
+  // Remove (set to "") if Art Week NYC becomes an official partner.
+  independence: "An independent event timed with Art Week NYC. Not affiliated with the festival."
 };
 </script>
 
 <title>Concept preview</title>
 <meta name="robots" content="noindex, nofollow">
+<!-- Link previews (iMessage, Slack, email). Crawlers do not run script.js,
+     so these stay static here; keep them in step with site.title/tagline.
+     Add og:image and og:url once the custom domain is live. -->
+<meta name="description" content="An art space with a coffee bar in the Meatpacking District, open for about a week in November 2026. Co-hosted and design-led.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="A Week of Art and Coffee in Meatpacking">
+<meta property="og:description" content="An art space with a coffee bar in the Meatpacking District, open for about a week in November 2026. Co-hosted and design-led.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F4EFEC'/%3E%3Cpath d='M6 26V14a8 8 0 0 1 16 0v12z' fill='%2373A89A'/%3E%3Ccircle cx='23' cy='11' r='5' fill='%23251F21'/%3E%3C/svg%3E">
 <!-- Fraunces (display and text serif) and Caveat (pencil annotations).
      Offline or over file://, the page falls back to Georgia. -->
@@ -322,6 +337,7 @@ window.CONFIG = {
         <h2 id="timeline-title" data-config="timeline.heading"></h2>
       </div>
       <ol class="steps" data-list="timeline.steps"></ol>
+      <p class="tentative" data-if="timeline.note" data-config="timeline.note"></p>
     </div>
   </section>
 
@@ -370,7 +386,10 @@ window.CONFIG = {
       <p class="eyebrow" data-config="statusEyebrow"></p>
       <div class="status__row reveal" id="program" data-if="program.text">
         <h2 data-config="program.heading"></h2>
-        <p data-config="program.text"></p>
+        <div>
+          <p data-config="program.text"></p>
+          <p class="status__note" data-if="program.note" data-config="program.note"></p>
+        </div>
       </div>
       <div class="status__row reveal" id="partners" data-if="partners.show">
         <h2 data-config="partners.heading"></h2>
@@ -389,6 +408,7 @@ window.CONFIG = {
     <p class="footer__title" data-config="site.title"></p>
     <p data-if="host" data-config="host"></p>
     <p data-config="footer"></p>
+    <p class="footer__small" data-if="independence" data-config="independence"></p>
   </div>
 </footer>
 

@@ -88,7 +88,7 @@ Once the venue and exact dates are confirmed:
 
 ### Current hosting
 
-- Code: private GitHub repo `loglixyz/artweek-meatpacking`.
+- Code: public GitHub repo `loglixyz/artweek-meatpacking`.
 - Site: GitHub Pages, deployed from `main`, repo root (Settings → Pages → Deploy from a branch). Address: https://loglixyz.github.io/artweek-meatpacking/
 - `.nojekyll` tells Pages to serve the files as they are, with no Jekyll processing.
 - The site is **public to anyone with the link** and shared internally only. The `noindex` meta tag asks search engines to skip it, but it is not access control.
