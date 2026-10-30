@@ -20,21 +20,23 @@
 window.CONFIG = {
   site: {
     shortName: "Art & Coffee, Meatpacking",
-    status: "Concept preview",
+    status: "Art Week NYC 2026",
     title: "A Week of Art and Coffee in Meatpacking",
-    titleNote: "Working title. Final event name to be decided.",
+    // Optional handwritten note under the title. Empty: no note.
+    titleNote: "",
     tagline: "An art space with a coffee bar inside a large, empty commercial building in the Meatpacking District, open for about a week. Co-hosted and design-led.",
-    // Shown until activationDates is filled in.
-    dates: "November 2026 · exact dates to be confirmed"
+    // Shown until activationDates is filled in. Month and place only:
+    // never the festival's dates.
+    dates: "November 2026 · Meatpacking District, New York"
   },
 
   // PHASE 2 ONLY: the confirmed public activation dates, exactly as supplied
   // by the organizers. Never copy the festival dates in here.
   activationDates: "",
 
-  // Optional festival context band, kept distinct from the activation dates,
-  // e.g. "During Art Week NYC, November 11–14, 2026". Empty: no band.
-  festivalContext: "",
+  // Optional festival context band, kept distinct from the activation dates.
+  // Empty: no band.
+  festivalContext: "During Art Week NYC, November 11–14, 2026",
 
   // PHASE 2 ONLY, once dates and venue are confirmed:
   // "Free entry · optional contribution on exit". Text only, never a payment.
@@ -65,8 +67,8 @@ window.CONFIG = {
   week: {
     eyebrow: "The concept",
     heading: "The week",
-    intro: "About a week, timed around {festivalName} ({festivalDates}). Exact activation dates are still being agreed. The model is co-hosted and design-led. The aim is to bring visibility to the space and to the cultural organizations involved.",
-    tentative: "Concepts in development; the program is set with the co-hosts.",
+    intro: "About a week in November, timed with {festivalName}. Six parts in one room: an exhibition, a long-table dinner, a place to work, coffee all day, works made with visitors, and events run by the co-hosts.",
+    tentative: "The program is set with the co-hosts.",
     items: [
       {
         title: "The exhibition",
@@ -116,6 +118,16 @@ window.CONFIG = {
     ]
   },
 
+  model: {
+    eyebrow: "How it works",
+    heading: "The model",
+    items: [
+      { title: "Co-hosts, not staff", text: "A fellowship of NYC founders and builders runs the week together." },
+      { title: "Design-led", text: "The space, the hang and the flow are curated end to end. The design is the point, not decoration." },
+      { title: "Built for visibility", text: "The week puts the property and the cultural organizations involved in front of the festival crowd." }
+    ]
+  },
+
   participationSection: {
     heading: "Made with visitors"
   },
@@ -139,8 +151,9 @@ window.CONFIG = {
     text: "Program announced soon."
   },
 
+  // Hidden while nothing is confirmed. Set show: true to bring the row back.
   partners: {
-    show: true,
+    show: false,
     heading: "Partners",
     text: "Partnerships being explored; none confirmed."
   },
@@ -150,7 +163,7 @@ window.CONFIG = {
     text: "Contact details coming soon."
   },
 
-  footer: "Concept in development. Dates, program and partners to be confirmed."
+  footer: "A co-hosted week of art and coffee in the Meatpacking District."
 };
 </script>
 
@@ -185,6 +198,7 @@ window.CONFIG = {
     <nav aria-label="Sections">
       <ul class="nav">
         <li><a href="#week" data-config="week.heading"></a></li>
+        <li><a href="#model" data-config="model.heading"></a></li>
         <li><a href="#space" data-config="space.heading"></a></li>
         <li><a href="#program" data-config="program.heading"></a></li>
         <li><a href="#contact" data-config="contact.heading"></a></li>
@@ -199,7 +213,7 @@ window.CONFIG = {
       <div class="hero__text">
         <p><span class="pill" data-config="site.status"></span></p>
         <h1 id="hero-title" data-config="site.title"></h1>
-        <p class="hero__note" data-config="site.titleNote"></p>
+        <p class="hero__note" data-if="site.titleNote" data-config="site.titleNote"></p>
         <p class="hero__tagline" data-config="site.tagline"></p>
         <p class="hero__dates" data-config="activationDates|site.dates"></p>
         <p class="hero__admission" data-if="admission" data-config="admission"></p>
@@ -227,6 +241,16 @@ window.CONFIG = {
         <ul class="participation__list" data-list="participation"></ul>
         <p class="tentative" data-config="participationNote"></p>
       </div>
+    </div>
+  </section>
+
+  <section class="section model" id="model" aria-labelledby="model-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow" data-config="model.eyebrow"></p>
+        <h2 id="model-title" data-config="model.heading"></h2>
+      </div>
+      <ol class="model__list" data-list="model.items"></ol>
     </div>
   </section>
 

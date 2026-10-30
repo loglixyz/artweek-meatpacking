@@ -152,6 +152,15 @@
         return li;
       });
     },
+    "model.items": function (items) {
+      return items.map(function (item, i) {
+        var li = el("li", "model__item reveal");
+        li.appendChild(el("p", "model__num", String(i + 1).padStart(2, "0")));
+        li.appendChild(el("h3", "model__title", item.title));
+        li.appendChild(el("p", "model__text", item.text));
+        return li;
+      });
+    },
     participation: function (items) {
       return [].concat(items).map(function (text) {
         return el("li", null, text);
@@ -185,11 +194,27 @@
     node.replaceChildren(frame(image, "hero__frame", true), el("figcaption", null, image.caption));
   });
 
-  document.title = config.site.title + " — " + config.site.status;
+  document.title = config.site.title;
+
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // In-page links scroll to their section without adding #week, #top etc.
+  // to the address bar. Focus moves to the section for keyboard and
+  // screen-reader users.
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest && event.target.closest('a[href^="#"]');
+    if (!link || event.defaultPrevented || event.button !== 0 ||
+        event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    var target = document.getElementById(link.getAttribute("href").slice(1));
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+    target.focus({ preventScroll: true });
+  });
 
   // Fade sections in as they scroll into view. Skipped when the viewer
   // prefers reduced motion or the browser lacks IntersectionObserver.
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (!reduce && "IntersectionObserver" in window) {
     document.documentElement.classList.add("js-reveal");
     var observer = new IntersectionObserver(function (entries) {

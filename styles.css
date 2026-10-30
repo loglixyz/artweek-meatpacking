@@ -412,6 +412,41 @@ figcaption {
   color: var(--graphite);
 }
 
+/* The model: three short principles */
+.model { padding-top: 0; }
+.model__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 36px;
+}
+.model__item {
+  position: relative;
+  padding-top: 26px;
+}
+.model__item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -5px;
+  height: 10px;
+  background: var(--sketch-line) repeat-x left center / 600px 10px;
+}
+.model__num {
+  font-family: var(--hand);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--teal-ink);
+  margin-bottom: 10px;
+}
+.model__title { font-size: clamp(26px, 3vw, 32px); margin-bottom: 10px; }
+.model__text { color: var(--ink-2); font-size: 18px; max-width: 24em; }
+
+[tabindex="-1"]:focus { outline: none; }
+
 /* Phase 2 participation list */
 .participation {
   position: relative;
@@ -537,6 +572,7 @@ section[id], .status__row[id] { scroll-margin-top: 72px; }
 @media (min-width: 960px) {
   :root { --gutter: 48px; }
   .hero__grid { grid-template-columns: 1.05fr 1fr; gap: 80px; }
+  .model__list { grid-template-columns: repeat(3, 1fr); gap: 48px; }
   .space { grid-template-columns: 1fr 1.1fr; gap: 80px; }
 }
 
