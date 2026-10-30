@@ -6,18 +6,29 @@
   var config = window.CONFIG;
   if (!config) return;
 
-  // Look up "a.b.c" in CONFIG.
-  function get(path) {
-    return path.split(".").reduce(function (obj, key) {
-      return obj == null ? undefined : obj[key];
-    }, config);
+  function isEmpty(value) {
+    return value == null || value === "" || value === false ||
+      (Array.isArray(value) && value.length === 0);
   }
 
-  // Replace {placeholders} in strings with values from config.festival.
+  // Look up "a.b.c" in CONFIG. "a|b.c" returns the first non-empty value.
+  function get(path) {
+    var keys = path.split("|");
+    for (var i = 0; i < keys.length; i++) {
+      var value = keys[i].split(".").reduce(function (obj, key) {
+        return obj == null ? undefined : obj[key];
+      }, config);
+      if (!isEmpty(value)) return value;
+    }
+    return undefined;
+  }
+
+  // Replace {placeholders} in strings with shared CONFIG values.
   function fill(text) {
     var tokens = {
       festivalName: config.festival.name,
-      festivalDates: config.festival.dates
+      festivalDates: config.festival.dates,
+      participationNote: config.participationNote
     };
     return String(text).replace(/\{(\w+)\}/g, function (match, key) {
       return key in tokens ? tokens[key] : match;
@@ -57,31 +68,67 @@
     return wrap;
   }
 
-  // Abstract SVG compositions for cards without an illustration. Decorative only.
+  // Pencil sketches for cards without an illustration. Decorative only.
+  // "wash" shapes are soft colour fills; "line" shapes are drawn in graphite
+  // and pass through the #pencil filter defined in index.html.
   var NS = "http://www.w3.org/2000/svg";
   var motifs = {
-    forms: [
-      ["rect", { x: 0, y: 0, width: 160, height: 120, "class": "m-sand" }],
-      ["path", { d: "M22 120 V62 a30 30 0 0 1 60 0 V120 z", "class": "m-teal" }],
-      ["circle", { cx: 110, cy: 46, r: 24, "class": "m-sand-deep" }],
-      ["path", { d: "M88 120 a28 28 0 0 1 56 0 z", "class": "m-ink" }],
-      ["circle", { cx: 52, cy: 30, r: 6, "class": "m-ink" }]
-    ]
+    // An easel with a canvas being drawn on, and loose marks around it.
+    sketch: {
+      wash: [
+        ["rect", { x: 56, y: 22, width: 54, height: 46, "class": "m-wash-teal" }],
+        ["circle", { cx: 122, cy: 88, r: 11, "class": "m-wash-sand" }]
+      ],
+      line: [
+        ["rect", { x: 52, y: 18, width: 56, height: 48, rx: 1 }],
+        ["path", { d: "M62 52 c8 -14 16 6 24 -8 s12 -2 16 -10" }],
+        ["path", { d: "M64 30 q8 4 14 0" }],
+        ["path", { d: "M80 66 L66 104 M80 66 L94 104 M80 66 L80 100" }],
+        ["path", { d: "M18 100 l22 -22 l4 4 l-22 22 z M18 100 l-3 7 l7 -3" }],
+        ["circle", { cx: 124, cy: 86, r: 11 }],
+        ["path", { d: "M118 32 q6 -6 12 0 t12 0" }],
+        ["path", { d: "M24 30 l6 6 M30 30 l-6 6" }]
+      ]
+    },
+    // Three gathered forms and a long table line.
+    forms: {
+      wash: [
+        ["path", { d: "M28 100 V60 a24 24 0 0 1 48 0 V100 z", "class": "m-wash-teal" }],
+        ["circle", { cx: 110, cy: 50, r: 20, "class": "m-wash-sand" }],
+        ["path", { d: "M90 100 a24 24 0 0 1 48 0 z", "class": "m-wash-ink" }]
+      ],
+      line: [
+        ["path", { d: "M24 98 V58 a24 24 0 0 1 48 0 V98" }],
+        ["circle", { cx: 108, cy: 48, r: 20 }],
+        ["path", { d: "M86 98 a24 24 0 0 1 48 0" }],
+        ["path", { d: "M12 100 H148" }],
+        ["circle", { cx: 52, cy: 26, r: 5 }]
+      ]
+    }
   };
 
-  function motif(name) {
-    var svg = document.createElementNS(NS, "svg");
-    svg.setAttribute("viewBox", "0 0 160 120");
-    svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
-    svg.setAttribute("aria-hidden", "true");
-    svg.setAttribute("focusable", "false");
-    (motifs[name] || []).forEach(function (part) {
+  function shapes(parent, list, className) {
+    list.forEach(function (part) {
       var shape = document.createElementNS(NS, part[0]);
       Object.keys(part[1]).forEach(function (attr) {
         shape.setAttribute(attr, part[1][attr]);
       });
-      svg.appendChild(shape);
+      if (className) shape.classList.add(className);
+      parent.appendChild(shape);
     });
+  }
+
+  function motif(name) {
+    var drawing = motifs[name] || { wash: [], line: [] };
+    var svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", "0 0 160 120");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    shapes(svg, drawing.wash);
+    var lines = document.createElementNS(NS, "g");
+    lines.setAttribute("class", "pencil m-line");
+    shapes(lines, drawing.line);
+    svg.appendChild(lines);
     return svg;
   }
 
@@ -100,11 +147,23 @@
         body.appendChild(el("p", "card__num", String(i + 1).padStart(2, "0")));
         body.appendChild(el("h3", "card__title", item.title));
         body.appendChild(el("p", "card__text", item.text));
+        if (!isEmpty(item.note)) body.appendChild(el("p", "card__note", item.note));
         li.appendChild(body);
         return li;
       });
+    },
+    participation: function (items) {
+      return [].concat(items).map(function (text) {
+        return el("li", null, text);
+      });
     }
   };
+
+  // Conditional blocks first: a block whose CONFIG value is empty is removed
+  // from the page entirely, so no empty shells are left behind.
+  document.querySelectorAll("[data-if]").forEach(function (node) {
+    if (isEmpty(get(node.getAttribute("data-if")))) node.remove();
+  });
 
   // Plain text bindings.
   document.querySelectorAll("[data-config]").forEach(function (node) {
@@ -124,11 +183,6 @@
     var image = get(node.getAttribute("data-image"));
     if (!image) return;
     node.replaceChildren(frame(image, "hero__frame", true), el("figcaption", null, image.caption));
-  });
-
-  // Optional sections.
-  document.querySelectorAll("[data-show]").forEach(function (node) {
-    if (!get(node.getAttribute("data-show"))) node.hidden = true;
   });
 
   document.title = config.site.title + " — " + config.site.status;

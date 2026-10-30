@@ -11,6 +11,9 @@
   script.js renders these values into the page.
   Phase 2: update this block (dates, venue wording, partners, contact)
   and the page follows. Keep it inline: no fetch(), so file:// works.
+
+  Keys marked PHASE 2 ONLY stay empty until confirmed. While empty,
+  their lines and sections are removed from the page entirely.
   ================================================================
 -->
 <script>
@@ -21,8 +24,28 @@ window.CONFIG = {
     title: "A Week of Art and Coffee in Meatpacking",
     titleNote: "Working title. Final event name to be decided.",
     tagline: "An art space with a coffee bar inside a large, empty commercial building in the Meatpacking District, open for about a week. Co-hosted and design-led.",
+    // Shown until activationDates is filled in.
     dates: "November 2026 · exact dates to be confirmed"
   },
+
+  // PHASE 2 ONLY: the confirmed public activation dates, exactly as supplied
+  // by the organizers. Never copy the festival dates in here.
+  activationDates: "",
+
+  // Optional festival context band, kept distinct from the activation dates,
+  // e.g. "During Art Week NYC, November 11–14, 2026". Empty: no band.
+  festivalContext: "",
+
+  // PHASE 2 ONLY, once dates and venue are confirmed:
+  // "Free entry · optional contribution on exit". Text only, never a payment.
+  admission: "",
+
+  // PHASE 2 ONLY: visitor-made concepts the organizers have selected and
+  // approved, as a list of strings. Empty: no participation section.
+  participation: [],
+
+  // Required wherever visitor participation is described.
+  participationNote: "Interactive works are made with visitors and are separate from any borrowed artworks.",
 
   festival: {
     name: "Art Week NYC",
@@ -40,11 +63,21 @@ window.CONFIG = {
   },
 
   week: {
+    eyebrow: "The concept",
     heading: "The week",
     intro: "About a week, timed around {festivalName} ({festivalDates}). Exact activation dates are still being agreed. The model is co-hosted and design-led. The aim is to bring visibility to the space and to the cultural organizations involved.",
+    tentative: "Concepts in development; the program is set with the co-hosts.",
     items: [
       {
-        title: "Opening dinner",
+        title: "The exhibition",
+        text: "An exhibition shaped with the co-hosts. Concepts in development.",
+        image: {
+          src: "assets/site-exhibition.jpg",
+          alt: "Detail of a concept illustration: a large abstract painting in teal, cream, ochre and black on a white gallery wall, with smaller abstract works to the right and three visitors talking below."
+        }
+      },
+      {
+        title: "An opening dinner",
         text: "One long table to open the week. A seated dinner for the people who shape what follows.",
         image: {
           src: "assets/site-dinner.png",
@@ -53,7 +86,7 @@ window.CONFIG = {
         }
       },
       {
-        title: "Collaborative coworking",
+        title: "Coworking by day",
         text: "During the festival days the space works as a shared studio, with open tables for working and meeting alongside the art.",
         image: {
           src: "assets/site-cowork.png",
@@ -62,7 +95,7 @@ window.CONFIG = {
         }
       },
       {
-        title: "Coffee bar",
+        title: "Coffee throughout",
         text: "A coffee bar runs throughout the week. Some suppliers are already in place.",
         image: {
           src: "assets/site-coffee.jpg",
@@ -70,23 +103,36 @@ window.CONFIG = {
         }
       },
       {
-        title: "Co-hosted events",
+        title: "Made with visitors",
+        text: "Works created with the people who walk in. Details with the program.",
+        note: "{participationNote}",
+        motif: "sketch"
+      },
+      {
+        title: "Events with co-hosts",
         text: "More events, shaped together with co-hosts from a fellowship of NYC founders and builders.",
         motif: "forms"
       }
     ]
   },
 
+  participationSection: {
+    heading: "Made with visitors"
+  },
+
   space: {
+    eyebrow: "The site",
     heading: "The space",
     district: "Meatpacking District",
-    location: "Meatpacking District, near the Whitney Museum",
+    location: "Meatpacking District, New York",
     areaFigure: "11,500",
     areaUnit: "sq ft, approx.",
     areaNote: "plus a basement",
     text: "A large commercial property, currently empty, opened up for one week as a place to look, work, eat and talk.",
-    diagramCaption: "Abstract diagram, not a floor plan."
+    diagramCaption: "Abstract sketch, not a floor plan."
   },
+
+  statusEyebrow: "What comes next",
 
   program: {
     heading: "Program",
@@ -115,6 +161,17 @@ window.CONFIG = {
 <script src="script.js" defer></script>
 </head>
 <body>
+<!-- Shared drawing tools: a slight wobble that makes vector lines read as pencil. -->
+<svg class="defs" aria-hidden="true" focusable="false">
+  <filter id="pencil" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+    <line x1="0" y1="0" x2="0" y2="6" stroke="#585254" stroke-width="0.9" stroke-opacity="0.55"/>
+  </pattern>
+</svg>
+
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="masthead">
@@ -135,41 +192,43 @@ window.CONFIG = {
   <section class="hero" id="top" aria-labelledby="hero-title">
     <div class="wrap hero__grid">
       <div class="hero__text">
-        <p class="eyebrow"><span class="pill" data-config="site.status"></span></p>
+        <p><span class="pill" data-config="site.status"></span></p>
         <h1 id="hero-title" data-config="site.title"></h1>
         <p class="hero__note" data-config="site.titleNote"></p>
         <p class="hero__tagline" data-config="site.tagline"></p>
-        <p class="hero__dates" data-config="site.dates"></p>
+        <p class="hero__dates" data-config="activationDates|site.dates"></p>
+        <p class="hero__admission" data-if="admission" data-config="admission"></p>
       </div>
       <figure class="hero__figure" data-image="hero"></figure>
     </div>
   </section>
 
-  <div class="band">
-    <p class="wrap band__inner">
-      <span data-config="festival.name"></span>
-      <span class="band__dot" aria-hidden="true"></span>
-      <span data-config="festival.dates"></span>
-      <span class="band__dot" aria-hidden="true"></span>
-      <span data-config="space.district"></span>
-    </p>
+  <div class="band" data-if="festivalContext">
+    <p class="wrap band__inner" data-config="festivalContext"></p>
   </div>
 
   <section class="section" id="week" aria-labelledby="week-title">
     <div class="wrap">
       <div class="section__head reveal">
-        <p class="section__index" aria-hidden="true">I</p>
+        <p class="eyebrow" data-config="week.eyebrow"></p>
         <h2 id="week-title" data-config="week.heading"></h2>
         <p class="lede" data-config="week.intro"></p>
       </div>
       <ol class="cards" data-list="week.items"></ol>
+      <p class="tentative reveal" data-config="week.tentative"></p>
+
+      <div class="participation" data-if="participation">
+        <h3 data-config="participationSection.heading"></h3>
+        <ul class="participation__list" data-list="participation"></ul>
+        <p class="tentative" data-config="participationNote"></p>
+      </div>
     </div>
   </section>
 
   <section class="section section--sand" id="space" aria-labelledby="space-title">
     <div class="wrap space">
       <div class="section__head reveal">
-        <p class="section__index" aria-hidden="true">II</p>
+        <p class="eyebrow" data-config="space.eyebrow"></p>
         <h2 id="space-title" data-config="space.heading"></h2>
         <p class="stat">
           <span class="stat__figure" data-config="space.areaFigure"></span>
@@ -182,21 +241,23 @@ window.CONFIG = {
       </div>
       <figure class="diagram reveal">
         <svg viewBox="0 0 480 360" role="img" aria-labelledby="diagram-title">
-          <title id="diagram-title">Abstract diagram: a large open level above a smaller basement level.</title>
-          <!-- main level: a tilted plane -->
-          <polygon class="d-plane" points="60,120 300,60 440,130 200,190"/>
-          <polygon class="d-edge" points="60,120 200,190 200,206 60,136"/>
-          <polygon class="d-edge d-edge--dark" points="200,190 440,130 440,146 200,206"/>
-          <!-- forms on the main level -->
-          <rect class="d-teal" x="232" y="108" width="70" height="10" rx="5" transform="rotate(-14 232 108)"/>
-          <circle class="d-ink" cx="160" cy="132" r="9"/>
-          <circle class="d-teal-soft" cx="330" cy="128" r="14"/>
-          <!-- basement level -->
-          <polygon class="d-basement" points="110,250 290,205 395,258 215,303"/>
-          <line class="d-guide" x1="60" y1="136" x2="110" y2="250"/>
-          <line class="d-guide" x1="440" y1="146" x2="395" y2="258"/>
-          <!-- labels -->
-          <text class="d-label d-label--muted" x="300" y="330" text-anchor="middle" data-config="space.areaNote"></text>
+          <title id="diagram-title">Abstract sketch: a large open level above a smaller basement level.</title>
+          <!-- washes sit slightly off the pencil lines, like colour laid in by hand -->
+          <polygon class="d-wash" points="66,124 304,66 446,134 206,194"/>
+          <polygon class="d-wash d-wash--teal" points="204,196 444,136 444,150 204,210"/>
+          <g class="pencil">
+            <polygon class="d-line" points="60,120 300,60 440,130 200,190"/>
+            <polygon class="d-line d-hatch" points="60,120 200,190 200,206 60,136"/>
+            <polygon class="d-line" points="200,190 440,130 440,146 200,206"/>
+            <path class="d-line" d="M236 112 l66 -16"/>
+            <circle class="d-line" cx="160" cy="132" r="9"/>
+            <circle class="d-line" cx="330" cy="128" r="14"/>
+            <polygon class="d-dash" points="110,250 290,205 395,258 215,303"/>
+            <line class="d-guide" x1="60" y1="136" x2="110" y2="250"/>
+            <line class="d-guide" x1="440" y1="146" x2="395" y2="258"/>
+          </g>
+          <circle class="d-dot" cx="160" cy="132" r="5"/>
+          <text class="d-label" x="300" y="334" text-anchor="middle" data-config="space.areaNote"></text>
         </svg>
         <figcaption data-config="space.diagramCaption"></figcaption>
       </figure>
@@ -205,12 +266,12 @@ window.CONFIG = {
 
   <section class="section status" aria-label="Program, partners and contact">
     <div class="wrap">
-      <p class="section__index" aria-hidden="true">III</p>
+      <p class="eyebrow" data-config="statusEyebrow"></p>
       <div class="status__row reveal" id="program">
         <h2 data-config="program.heading"></h2>
         <p data-config="program.text"></p>
       </div>
-      <div class="status__row reveal" id="partners" data-show="partners.show">
+      <div class="status__row reveal" id="partners" data-if="partners.show">
         <h2 data-config="partners.heading"></h2>
         <p data-config="partners.text"></p>
       </div>

@@ -43,6 +43,23 @@ Every date, venue, partner and contact string is in the `CONFIG` block at the to
 - `partners.show: false` hides the Partners row entirely.
 - In `week.intro`, `{festivalDates}` and `{festivalName}` are filled in from `CONFIG.festival`.
 
+### Phase 2 keys (brief v2)
+
+These stay empty in phase 1. While empty, their lines and sections are removed from the page, so nothing renders as a blank shell.
+
+| Key | Fill in only when | Where it shows |
+| --- | --- | --- |
+| `activationDates` | The organizers supply the confirmed public dates. Copy them verbatim. Never reuse the festival dates. | Replaces the hero date line |
+| `festivalContext` | You want festival context shown, e.g. "During Art Week NYC, November 11–14, 2026" | Dark band under the hero |
+| `admission` | Dates and venue are confirmed: "Free entry · optional contribution on exit" | Under the hero dates. Text only, no payment code |
+| `participation` | The organizers have selected and approved specific visitor-made works | "Made with visitors" list, always with `participationNote` |
+
+### Content rules (brief v2)
+
+- Name no institution, partner, artist, artwork or lender until a partnership is confirmed **and** naming it is approved.
+- No attendance, capacity or occupancy figures. No loan, install or return dates. No basement size or layout detail beyond "a basement".
+- No donations, payments or contribution capture in code.
+
 ## Phase 1: private concept preview (now)
 
 - Local only. Show it from your own machine.
