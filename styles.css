@@ -412,20 +412,20 @@ figcaption {
   color: var(--graphite);
 }
 
-/* The model: three short principles */
-.model { padding-top: 0; }
-.model__list {
+/* Numbered points: why now, the model, exhibition directions */
+.model, .timeline { padding-top: 0; }
+.points {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
   gap: 36px;
 }
-.model__item {
+.point {
   position: relative;
   padding-top: 26px;
 }
-.model__item::before {
+.point::before {
   content: "";
   position: absolute;
   left: 0;
@@ -434,7 +434,7 @@ figcaption {
   height: 10px;
   background: var(--sketch-line) repeat-x left center / 600px 10px;
 }
-.model__num {
+.point__num {
   font-family: var(--hand);
   font-size: 26px;
   font-weight: 600;
@@ -442,8 +442,70 @@ figcaption {
   color: var(--teal-ink);
   margin-bottom: 10px;
 }
-.model__title { font-size: clamp(26px, 3vw, 32px); margin-bottom: 10px; }
-.model__text { color: var(--ink-2); font-size: 18px; max-width: 24em; }
+.point__title { font-size: clamp(26px, 3vw, 32px); margin-bottom: 10px; }
+.point__text { color: var(--ink-2); font-size: 18px; max-width: 24em; }
+.points--compact .point__title { font-size: clamp(22px, 2.4vw, 26px); }
+.points--compact .point__text { font-size: 17px; }
+
+.source {
+  margin-top: 36px;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-2);
+}
+
+.directions { margin-top: clamp(64px, 9vw, 112px); }
+.directions__heading { font-size: clamp(28px, 3.6vw, 38px); margin-bottom: 32px; }
+.directions .tentative { margin-top: 32px; }
+
+/* How the week runs: four steps on one pencil line */
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 28px;
+  display: grid;
+  gap: 36px;
+  position: relative;
+}
+.steps::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--graphite);
+  opacity: 0.55;
+}
+.step { position: relative; }
+.step::before {
+  content: "";
+  position: absolute;
+  left: -28px;
+  top: 6px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1.5px solid var(--graphite);
+  background: var(--teal-soft);
+}
+.step__label {
+  font-family: var(--hand);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--teal-ink);
+  margin-bottom: 6px;
+}
+.step__title { font-size: clamp(24px, 2.6vw, 28px); margin-bottom: 8px; }
+.step__text { color: var(--ink-2); font-size: 17px; max-width: 22em; }
+
+.hero__host {
+  margin-top: 14px;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--ink-2);
+}
 
 [tabindex="-1"]:focus { outline: none; }
 
@@ -572,7 +634,14 @@ section[id], .status__row[id] { scroll-margin-top: 72px; }
 @media (min-width: 960px) {
   :root { --gutter: 48px; }
   .hero__grid { grid-template-columns: 1.05fr 1fr; gap: 80px; }
-  .model__list { grid-template-columns: repeat(3, 1fr); gap: 48px; }
+  .points { grid-template-columns: repeat(3, 1fr); gap: 48px; }
+  .steps { grid-template-columns: repeat(4, 1fr); gap: 40px; padding: 30px 0 0; }
+  .steps::before {
+    left: 0; right: 0; top: 0; bottom: auto; width: auto; height: 10px;
+    background: var(--sketch-line) repeat-x left center / 600px 10px;
+    opacity: 1;
+  }
+  .step::before { left: 0; top: -31px; }
   .space { grid-template-columns: 1fr 1.1fr; gap: 80px; }
 }
 

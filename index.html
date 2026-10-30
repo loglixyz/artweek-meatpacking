@@ -49,9 +49,25 @@ window.CONFIG = {
   // Required wherever visitor participation is described.
   participationNote: "Interactive works are made with visitors and are separate from any borrowed artworks.",
 
+  // Set once the host has agreed and approved being named, e.g. "Hosted by …".
+  // Empty: no host line anywhere on the page.
+  host: "",
+
   festival: {
     name: "Art Week NYC",
     dates: "November 11–14, 2026"
+  },
+
+  // Public festival facts only. No institution names.
+  why: {
+    eyebrow: "Why now",
+    heading: "The first Art Week NYC",
+    points: [
+      { title: "Four days in November", text: "November 11–14, 2026, Wednesday to Saturday. The festival's inaugural edition." },
+      { title: "More than 80 galleries", text: "Coordinated openings across Chelsea, Tribeca, the Lower East Side and the Upper East Side, with 32 participating institutions." },
+      { title: "The crowd is already coming", text: "The festival brings the city's art audience to the neighborhood. The question is where they stop." }
+    ],
+    source: "Festival details from art-week.com and published announcements, checked October 29, 2026."
   },
 
   // Shown on every illustration so no one mistakes it for the real space.
@@ -118,6 +134,30 @@ window.CONFIG = {
     ]
   },
 
+  // Directions only. Never name an artist, work or lender here.
+  exhibitionDirections: {
+    heading: "Directions for the exhibition",
+    items: [
+      { title: "Emerging NYC artists", text: "A group show from the city's founder and builder community, curated with the co-hosts." },
+      { title: "Design and objects", text: "A room where the furniture, the objects and the hang itself are the exhibit." },
+      { title: "Works on paper", text: "A quieter room of prints, drawings and photography that suits a coffee setting." }
+    ],
+    note: "Directions under discussion with the co-hosts."
+  },
+
+  // The shape of the week, without dates. Activation dates go in
+  // activationDates once confirmed.
+  timeline: {
+    eyebrow: "The shape of the week",
+    heading: "How the week runs",
+    steps: [
+      { label: "Before", title: "Install", text: "The coffee bar and suppliers go in first, then the exhibition." },
+      { label: "The eve", title: "Opening dinner", text: "One long table on the eve of the public days. Format and guests set with the co-hosts." },
+      { label: "During Art Week NYC", title: "Open days", text: "Exhibition, coworking and coffee, open to the public." },
+      { label: "After", title: "Close", text: "The hang comes down and the space is handed back." }
+    ]
+  },
+
   model: {
     eyebrow: "How it works",
     heading: "The model",
@@ -140,7 +180,7 @@ window.CONFIG = {
     areaFigure: "11,500",
     areaUnit: "sq ft, approx.",
     areaNote: "plus a basement",
-    text: "A large commercial property, currently empty, opened up for one week as a place to look, work, eat and talk.",
+    text: "A large commercial property, currently empty, opened up for one week as a place to look, work, eat and talk. The ground floor holds a full exhibition and a working coffee bar, with a basement below.",
     diagramCaption: "Abstract sketch, not a floor plan."
   },
 
@@ -212,6 +252,7 @@ window.CONFIG = {
     <div class="wrap hero__grid">
       <div class="hero__text">
         <p><span class="pill" data-config="site.status"></span></p>
+        <p class="hero__host" data-if="host" data-config="host"></p>
         <h1 id="hero-title" data-config="site.title"></h1>
         <p class="hero__note" data-if="site.titleNote" data-config="site.titleNote"></p>
         <p class="hero__tagline" data-config="site.tagline"></p>
@@ -226,6 +267,17 @@ window.CONFIG = {
     <p class="wrap band__inner" data-config="festivalContext"></p>
   </div>
 
+  <section class="section why" id="why" aria-labelledby="why-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow" data-config="why.eyebrow"></p>
+        <h2 id="why-title" data-config="why.heading"></h2>
+      </div>
+      <ol class="points" data-list="why.points"></ol>
+      <p class="source" data-config="why.source"></p>
+    </div>
+  </section>
+
   <section class="section" id="week" aria-labelledby="week-title">
     <div class="wrap">
       <div class="section__head reveal">
@@ -234,6 +286,13 @@ window.CONFIG = {
         <p class="lede" data-config="week.intro"></p>
       </div>
       <ol class="cards" data-list="week.items"></ol>
+
+      <div class="directions">
+        <h3 class="directions__heading" data-config="exhibitionDirections.heading"></h3>
+        <ol class="points points--compact" data-list="exhibitionDirections.items"></ol>
+        <p class="tentative" data-config="exhibitionDirections.note"></p>
+      </div>
+
       <p class="tentative reveal" data-config="week.tentative"></p>
 
       <div class="participation" data-if="participation">
@@ -250,7 +309,17 @@ window.CONFIG = {
         <p class="eyebrow" data-config="model.eyebrow"></p>
         <h2 id="model-title" data-config="model.heading"></h2>
       </div>
-      <ol class="model__list" data-list="model.items"></ol>
+      <ol class="points" data-list="model.items"></ol>
+    </div>
+  </section>
+
+  <section class="section timeline" id="timeline" aria-labelledby="timeline-title">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <p class="eyebrow" data-config="timeline.eyebrow"></p>
+        <h2 id="timeline-title" data-config="timeline.heading"></h2>
+      </div>
+      <ol class="steps" data-list="timeline.steps"></ol>
     </div>
   </section>
 
@@ -316,6 +385,7 @@ window.CONFIG = {
 <footer class="footer">
   <div class="wrap footer__inner">
     <p class="footer__title" data-config="site.title"></p>
+    <p data-if="host" data-config="host"></p>
     <p data-config="footer"></p>
   </div>
 </footer>

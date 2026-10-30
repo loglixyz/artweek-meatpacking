@@ -132,6 +132,17 @@
     return svg;
   }
 
+  // Numbered title-and-text items, used by several sections.
+  function points(items) {
+    return items.map(function (item, i) {
+      var li = el("li", "point reveal");
+      li.appendChild(el("p", "point__num", String(i + 1).padStart(2, "0")));
+      li.appendChild(el("h3", "point__title", item.title));
+      li.appendChild(el("p", "point__text", item.text));
+      return li;
+    });
+  }
+
   var renderers = {
     "week.items": function (items) {
       return items.map(function (item, i) {
@@ -152,12 +163,15 @@
         return li;
       });
     },
-    "model.items": function (items) {
-      return items.map(function (item, i) {
-        var li = el("li", "model__item reveal");
-        li.appendChild(el("p", "model__num", String(i + 1).padStart(2, "0")));
-        li.appendChild(el("h3", "model__title", item.title));
-        li.appendChild(el("p", "model__text", item.text));
+    "why.points": points,
+    "model.items": points,
+    "exhibitionDirections.items": points,
+    "timeline.steps": function (steps) {
+      return steps.map(function (step) {
+        var li = el("li", "step reveal");
+        li.appendChild(el("p", "step__label", step.label));
+        li.appendChild(el("h3", "step__title", step.title));
+        li.appendChild(el("p", "step__text", step.text));
         return li;
       });
     },
