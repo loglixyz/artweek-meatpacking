@@ -36,7 +36,7 @@ window.CONFIG = {
 
   // Optional festival context band, kept distinct from the activation dates.
   // Empty: no band.
-  festivalContext: "During Art Week NYC, November 11–14, 2026",
+  festivalContext: "Art Week NYC festival dates: November 11–14, 2026",
 
   // PHASE 2 ONLY, once dates and venue are confirmed:
   // "Free entry · optional contribution on exit". Text only, never a payment.
@@ -63,7 +63,7 @@ window.CONFIG = {
     eyebrow: "Why now",
     heading: "The first Art Week NYC",
     points: [
-      { title: "Four days in November", text: "November 11–14, 2026, Wednesday to Saturday. The festival's inaugural edition." },
+      { title: "Four days in November", text: "Festival dates: November 11–14, 2026, Wednesday to Saturday. The festival's inaugural edition." },
       { title: "More than 80 galleries", text: "Coordinated openings across Chelsea, Tribeca, the Lower East Side and the Upper East Side, with 32 participating institutions." },
       { title: "The crowd is already coming", text: "The festival brings the city's art audience to the neighborhood. The question is where they stop." }
     ],
@@ -184,11 +184,13 @@ window.CONFIG = {
     diagramCaption: "Abstract sketch, not a floor plan."
   },
 
+  // The closing section and its nav links only appear once at least one of
+  // program.text, contact.text or partners.show has something to say.
   statusEyebrow: "What comes next",
 
   program: {
     heading: "Program",
-    text: "Program announced soon."
+    text: ""
   },
 
   // Hidden while nothing is confirmed. Set show: true to bring the row back.
@@ -200,7 +202,7 @@ window.CONFIG = {
 
   contact: {
     heading: "Contact",
-    text: "Contact details coming soon."
+    text: ""
   },
 
   footer: "A co-hosted week of art and coffee in the Meatpacking District."
@@ -240,8 +242,8 @@ window.CONFIG = {
         <li><a href="#week" data-config="week.heading"></a></li>
         <li><a href="#model" data-config="model.heading"></a></li>
         <li><a href="#space" data-config="space.heading"></a></li>
-        <li><a href="#program" data-config="program.heading"></a></li>
-        <li><a href="#contact" data-config="contact.heading"></a></li>
+        <li data-if="program.text"><a href="#program" data-config="program.heading"></a></li>
+        <li data-if="contact.text"><a href="#contact" data-config="contact.heading"></a></li>
       </ul>
     </nav>
   </div>
@@ -363,10 +365,10 @@ window.CONFIG = {
     </div>
   </section>
 
-  <section class="section status" aria-label="Program, partners and contact">
+  <section class="section status" aria-label="Program, partners and contact" data-if="program.text|contact.text|partners.show">
     <div class="wrap">
       <p class="eyebrow" data-config="statusEyebrow"></p>
-      <div class="status__row reveal" id="program">
+      <div class="status__row reveal" id="program" data-if="program.text">
         <h2 data-config="program.heading"></h2>
         <p data-config="program.text"></p>
       </div>
@@ -374,7 +376,7 @@ window.CONFIG = {
         <h2 data-config="partners.heading"></h2>
         <p data-config="partners.text"></p>
       </div>
-      <div class="status__row reveal" id="contact">
+      <div class="status__row reveal" id="contact" data-if="contact.text">
         <h2 data-config="contact.heading"></h2>
         <p data-config="contact.text"></p>
       </div>
